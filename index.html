@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institute of Humanitarian Technology & Social Impact Professionals</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/IHTSIP_icon.ico" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .progress-ring {
+            stroke-width: 8;
+            stroke: #6366f1;
+            fill: transparent;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+        
+        .animate-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .animate-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-header {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-header:hover {
+            color: #6366f1;
+        }
+        
+        .language-selector {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tier-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+        
+        .membership-card {
+            transition: all 0.3s ease;
+        }
+        
+        .membership-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .certification-track {
+            border-left: 3px solid #6366f1;
+            padding-left: 1.5rem;
+            margin-left: 1rem;
+        }
+        
+        .cert-step {
+            position: relative;
+            padding: 1rem 0;
+        }
+        
+        .cert-step:before {
+            content: '';
+            position: absolute;
+            left: -1.75rem;
+            top: 1rem;
+            width: 12px;
+            height: 12px;
+            background: #6366f1;
+            border-radius: 50%;
+        }
+        
+        .volunteer-card {
+            transition: all 0.3s ease;
+        }
+        
+        .volunteer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #6366f1;
+        }
+        
+        .scroll-active {
+            color: #6366f1;
+            font-weight: 600;
+        }
+        
+        .resource-card {
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag-free {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .tag-paid {
+            background-color: #ede9fe;
+            color: #5b21b6;
+        }
+        
+        .tag-journal {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .verification-result {
+            border: 2px solid #d1fae5;
+            background-color: #f0fdf4;
+            color: #065f46;
+        }
+        
+        .verification-error {
+            border: 2px solid #fecaca;
+            background-color: #fef2f2;
+            color: #991b1b;
+        }
+        
+        .download-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white shadow-lg z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <!-- Organization Logo -->
+                    <img src="img\IHTSIP_Logo.png" alt="IHTSIP Logo" class="h-20 w-20 mr-3 squared-full">
+                    <div>
+                        <h1 class="text-base text-navyblue-600 leading-tight">Institute of</h1>
+                        <h1 class="text-base text-navyblue-600 leading-tight">Humanitarian Technology</h1>
+                        <h1 class="text-base text-navyblue-600 leading-tight">& Social Impact Professionals</h1>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 font-medium">Home</a>
+                    <a href="#membership" class="nav-link text-gray-700 font-medium">Membership</a>
+                    <a href="#certifications" class="nav-link text-gray-700 font-medium">Certifications</a>
+                    <a href="#volunteers" class="nav-link text-gray-700 font-medium">Volunteers</a>
+                    <a href="#library" class="nav-link text-gray-700 font-medium">Library</a>
+                    <a href="#certificates" class="nav-link text-gray-700 font-medium">Verify</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="language-selector rounded-full px-3 py-1 text-sm">
+                        <select class="bg-transparent text-white outline-none">
+                            <option value="en">EN</option>
+                            <option value="es">ES</option>
+                            <option value="fr">FR</option>
+                            <option value="ar">AR</option>
+                        </select>
+                    </div>
+                    
+                    <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300 font-medium">
+                        <a href="login form.html" target="_blank">Sign In</a>
+                    </button>
+                    
+                    <button class="md:hidden text-gray-700">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-40 pb-16 gradient-bg text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="animate-in">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    Empowering Humanitarian Professionals Through Technology
+                </h1>
+                    <p class="text-lg md:text-xl mb-8 opacity-90">
+                        Join our global community of changemakers and gain the skills needed to drive social impact in the digital age.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button class="bg-white text-purple-600 px-8 py-4 rounded-full font-bold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <a href="login form.html" target="_blank">Enroll Now</a>
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-purple-600 transition-all duration-300">
+                        <a href="login form.html" target="_blank">Explore Programs</a>
+                        </button>
+                    </div>
+                </div>
+                <div class="animate-in" style="animation-delay: 0.3s">
+                    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-8">
+                        <img src="https://placehold.co/500x400/6366f1/ffffff?text=Humanitarian+Learning" alt="Humanitarian Learning" class="rounded-xl w-full shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ <!-- About Us Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">About Us</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    The Institute of Humanitarian Technology and Social Impact Professionals is dedicated to advancing humanitarian work through technology and innovation.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div class="animate-in">
+                    <img src="https://placehold.co/600x400/f9fafb/6366f1?text=Our+Mission" alt="Our Mission" class="rounded-2xl shadow-2xl">
+                </div>
+                <div class="animate-in" style="animation-delay: 0.3s">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Our Mission & Vision</h3>
+                    <p class="text-lg text-gray-600 mb-6">
+                        At the Institute of Humanitarian Technology and Social Impact Professionals (IHTSIP), we believe that technology should serve humanity. Our mission is to bridge the gap between technological innovation and humanitarian action by providing accessible, high-quality education to professionals worldwide.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6">
+                        We empower changemakers with the digital skills needed to address complex global challenges, from disaster response to sustainable development, ensuring that technology becomes a force for good in the world.
+                    </p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                        <h4 class="font-bold text-blue-800 mb-3">Our Core Values</h4>
+                        <ul class="space-y-2 text-blue-700">
+                            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Innovation for Social Good</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Ethical Technology Use</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Global Collaboration</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Inclusive Access to Education</li>
+                            <li class="flex items-center"><i class="fas fa-check text-blue-600 mr-2"></i> Sustainable Impact</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+ <!-- Animated Statistics Counter -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl p-12 mb-16 animate-in" style="animation-delay: 0.5s">
+                <h3 class="text-3xl font-bold text-center mb-12">Our Impact</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div class="stat-item">
+                        <div class="stat-number text-white text-6xl font-extrabold" data-target="15000">0</div>
+                        <h4 class="text-xl font-semibold">Certified Professionals</h4>
+                        <p class="text-indigo-100">Across 120+ countries</p>
+                    </div>
+                    <div class="stat-item">
+                    <div class="stat-number text-white text-6xl font-extrabold" data-target="25000">0</div>
+                      <h4 class="text-xl font-semibold">Volunteers Trained</h4>
+                        <p class="text-indigo-100">Making a difference worldwide</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number text-white text-6xl font-extrabold" data-target="85">0</div>
+                        <h4 class="text-xl font-semibold">Countries Reached</h4>
+                        <p class="text-indigo-100">Global humanitarian network</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number text-white text-6xl font-extrabold" data-target="450">0</div>
+                        <h4 class="text-xl font-semibold">Disaster Responses</h4>
+                        <p class="text-indigo-100">Supported with technology</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="text-center animate-in">
+                    <div class="bg-purple-100 text-purple-600 p-4 rounded-xl mb-4 inline-block">
+                        <i class="fas fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Expert Instructors</h3>
+                    <p class="text-gray-600">Learn from industry leaders and experienced practitioners in humanitarian technology.</p>
+                </div>
+                
+                <div class="text-center animate-in" style="animation-delay: 0.2s">
+                    <div class="bg-purple-100 text-purple-600 p-4 rounded-xl mb-4 inline-block">
+                        <i class="fas fa-certificate text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Globally Recognized</h3>
+                    <p class="text-gray-600">Our certifications are recognized by humanitarian organizations worldwide.</p>
+                </div>
+                
+                <div class="text-center animate-in" style="animation-delay: 0.4s">
+                    <div class="bg-purple-100 text-purple-600 p-4 rounded-xl mb-4 inline-block">
+                        <i class="fas fa-globe text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Global Community</h3>
+                    <p class="text-gray-600">Join a network of professionals from 120+ countries working for social impact.</p>
+                </div>
+                
+                <div class="text-center animate-in" style="animation-delay: 0.6s">
+                    <div class="bg-purple-100 text-purple-600 p-4 rounded-xl mb-4 inline-block">
+                        <i class="fas fa-mobile-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Mobile Learning</h3>
+                    <p class="text-gray-600">Access courses and resources anytime, anywhere on any device.</p>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 rounded-2xl p-8 mb-16">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Our Leadership Team</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <img src="https://placehold.co/150x150/e5e7eb/6366f1?text=CEO" alt="CEO" class="w-32 h-32 rounded-full mx-auto mb-4">
+                        <h4 class="text-xl font-bold text-gray-900">Dr. Sarah Johnson</h4>
+                        <p class="text-purple-600 font-medium">Chief Executive Officer</p>
+                        <p class="text-gray-600 mt-2">Former UN humanitarian coordinator with 20+ years of field experience.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <img src="https://placehold.co/150x150/e5e7eb/6366f1?text=CTO" alt="CTO" class="w-32 h-32 rounded-full mx-auto mb-4">
+                        <h4 class="text-xl font-bold text-gray-900">Prof. Michael Chen</h4>
+                        <p class="text-purple-600 font-medium">Chief Technology Officer</p>
+                        <p class="text-gray-600 mt-2">AI researcher and blockchain expert from MIT Media Lab.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <img src="https://placehold.co/150x150/e5e7eb/6366f1?text=CIO" alt="CIO" class="w-32 h-32 rounded-full mx-auto mb-4">
+                        <h4 class="text-xl font-bold text-gray-900">Dr. Anna Thompson</h4>
+                        <p class="text-purple-600 font-medium">Chief Innovation Officer</p>
+                        <p class="text-gray-600 mt-2">Social entrepreneur and impact investment specialist.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300">
+                    Contact Our Team
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Section -->
+    <section id="membership" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Membership Cadre</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Join our professional community and advance your career in humanitarian technology and social impact.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Emerging Impact Scholar -->
+                <div class="membership-card bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 card-hover">
+                    <div class="tier-badge bg-blue-600 text-white">EIS</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Emerging Impact Scholar</h3>
+                    <p class="text-sm text-blue-800 font-semibold text-center mb-4">EISiHTSIP</p>
+                    <p class="text-gray-600 mb-4 text-center">For senior secondary school students interested in humanitarian technology and social impact.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Access to foundational courses</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Mentorship program</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Youth leadership development</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Networking opportunities</li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="login form.html" class="text-2xl font-bold text-blue-600 hover:text-rose-700 transition-colors duration-300" target="_blank">Apply</a>
+                    </div>
+                </div>
+                
+                <!-- Student Member -->
+                <div class="membership-card bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-6 card-hover">
+                    <div class="tier-badge bg-indigo-600 text-white">SM</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Student Member</h3>
+                    <p class="text-sm text-indigo-800 font-semibold text-center mb-4">SMiHTSIP</p>
+                    <p class="text-gray-600 mb-4 text-center">For tertiary institution students pursuing careers in humanitarian and social impact fields.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 50% discount on certifications</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Academic resources library</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Research collaboration</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Career guidance</li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="login form.html" class="text-2xl font-bold text-indigo-600 hover:text-rose-700 transition-colors duration-300" target="_blank">Apply</a>
+                    </div>
+                </div>
+                
+                <!-- Graduate Member -->
+                <div class="membership-card bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 card-hover">
+                    <div class="tier-badge bg-purple-600 text-white">GM</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Graduate Member</h3>
+                    <p class="text-sm text-purple-800 font-semibold text-center mb-4">GMiHTSIP</p>
+                    <p class="text-gray-600 mb-4 text-center">For recent graduates starting their career journey in humanitarian and social impact sectors.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Early career development</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Job placement assistance</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Professional networking</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Certification pathways</li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="login form.html" class="text-2xl font-bold text-purple-600 hover:text-rose-700 transition-colors duration-300" target="_blank">Apply</a>
+                    </div>
+                </div>
+                
+                <!-- Associate Member -->
+                <div class="membership-card bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-6 card-hover">
+                    <div class="tier-badge bg-pink-600 text-white">AM</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Associate Member</h3>
+                    <p class="text-sm text-pink-800 font-semibold text-center mb-4">AMiHTSIP</p>
+                    <p class="text-gray-600 mb-4 text-center">Entry-level professionals or practitioners in humanitarian technology and social impact fields.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Professional development</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Industry connections</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Certification programs</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Resource access</li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="login form.html" class="text-2xl font-bold text-pink-600 hover:text-rose-700 transition-colors duration-300" target="_blank">Apply</a>
+                    </div>
+                </div>
+                
+                <!-- Full Member -->
+                <div class="membership-card bg-gradient-to-br from-rose-50 to-rose-100 rounded-2xl p-6 card-hover">
+                    <div class="tier-badge bg-rose-600 text-white">FM</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Full Member</h3>
+                    <p class="text-sm text-rose-800 font-semibold text-center mb-4">FMiHTSIP</p>
+                    <p class="text-gray-600 mb-4 text-center">Experienced professionals in the humanitarian technology and social impact field.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Leadership opportunities</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Advanced training</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Research collaboration</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Global network access</li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="login form.html" class="text-2xl font-bold text-rose-600 hover:text-rose-700 transition-colors duration-300" target="_blank">Apply</a>
+   
+                    </div>
+                </div>
+                
+                <!-- Fellow -->
+                <div class="membership-card bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 card-hover">
+                    <div class="tier-badge bg-red-600 text-white">F</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 text-center">Fellow</h3>
+                    <p class="text-sm text-red-800 font-semibold text-center mb-4">FiHTSIP</p>
+                    <p class="text-gray-600 mb-4 text-center">Senior members recognized for outstanding contributions to the field.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Recognition & honors</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Advisory roles</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Speaking opportunities</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Mentorship leadership</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-2xl font-bold text-red-600">By Invitation</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8">Distinguished Honors</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Doctoral Fellow -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-purple-600 mb-3">Doctoral Fellow</div>
+                        <p class="text-gray-600 mb-4">Members holding doctoral qualifications with significant impact in humanitarian technology and social impact.</p>
+                        <div class="text-sm text-gray-500">DFiHTSIP</div>
+                    </div>
+                    
+                    <!-- Professorial Fellow -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-indigo-600 mb-3">Professorial Fellow</div>
+                        <p class="text-gray-600 mb-4">Distinguished academic leaders and experts shaping the future of humanitarian technology education.</p>
+                        <div class="text-sm text-gray-500">PFIHTSIP</div>
+                    </div>
+                    
+                    <!-- Change Ambassador -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-blue-600 mb-3">Change Ambassador</div>
+                        <p class="text-gray-600 mb-4">Recognized advocates for humanitarian and social impact causes with global influence.</p>
+                        <div class="text-sm text-gray-500">CAiHTSIP</div>
+                    </div>
+                    
+                    <!-- Honorary Doctorate -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <div class="text-4xl font-bold text-rose-600 mb-3">Honorary Doctorate</div>
+                        <p class="text-gray-600 mb-4">Awarded for exceptional contributions to humanity and the advancement of social impact.</p>
+                        <div class="text-sm text-gray-500">HDiHTSIP</div>
+                    </div>
+                    
+                    <!-- Chief Agent -->
+                    <div class="bg-gradient-to-br from-amber-400 to-amber-600 text-white rounded-2xl p-6 shadow-lg col-span-1 md:col-span-2">
+                        <div class="text-4xl font-bold mb-3">Chief Agent</div>
+                        <p class="mb-4">The highest honor of IHTSIP, recognizing transformative leadership and unparalleled contributions to humanitarian technology and social impact.</p>
+                        <div class="text-sm opacity-90">CAiHTSIP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Certifications Section -->
+    <section id="certifications" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Professional Certifications</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Advance your career with our industry-recognized certifications in humanitarian technology and social impact.
+                </p>
+            </div>
+            
+            <!-- Certification Tracks -->
+            <div class="bg-white rounded-2xl p-8 mb-12 shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">Certification Tracks</h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Track 1: Humanitarian Technology -->
+                    <div class="certification-track">
+                        <h4 class="text-xl font-bold text-indigo-600 mb-6 flex items-center">
+                            <i class="fas fa-microchip mr-3"></i>
+                            Track 1 – Humanitarian Technology
+                        </h4>
+                        
+                        <div class="space-y-4">
+                            <div class="cert-step bg-blue-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h5 class="font-bold text-gray-900">Entry Level</h5>
+                                        <p class="text-gray-600">Certified Humanitarian Technology Associate (CHTA)</p>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Foundational</span>
+                                </div>
+                            </div>
+                            
+                            <div class="cert-step bg-indigo-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h5 class="font-bold text-gray-900">Mid Level</h5>
+                                        <p class="text-gray-600">Certified Humanitarian Technology Professional (CHTP)</p>
+                                    </div>
+                                    <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">Professional</span>
+                                </div>
+                            </div>
+                            
+                            <div class="cert-step bg-purple-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h5 class="font-bold text-gray-900">Senior Level</h5>
+                                        <p class="text-gray-600">Certified Humanitarian Technology Expert (CHTE)</p>
+                                    </div>
+                                    <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Expert</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Track 2: Social Impact & Development -->
+                    <div class="certification-track">
+                        <h4 class="text-xl font-bold text-green-600 mb-6 flex items-center">
+                            <i class="fas fa-hands-helping mr-3"></i>
+                            Track 2 – Social Impact & Development
+                        </h4>
+                        
+                        <div class="space-y-4">
+                            <div class="cert-step bg-emerald-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h5 class="font-bold text-gray-900">Entry Level</h5>
+                                        <p class="text-gray-600">Certified Social Impact Associate (CSIA)</p>
+                                    </div>
+                                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full">Foundational</span>
+                                </div>
+                            </div>
+                            
+                            <div class="cert-step bg-green-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h5 class="font-bold text-gray-900">Mid Level</h5>
+                                        <p class="text-gray-600">Certified Social Impact Professional (CSIP)</p>
+                                    </div>
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Professional</span>
+                                </div>
+                            </div>
+                            
+                            <div class="cert-step bg-teal-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h5 class="font-bold text-gray-900">Senior Level</h5>
+                                        <p class="text-gray-600">Certified Social Impact Strategist (CSIS)</p>
+                                    </div>
+                                    <span class="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded-full">Strategist</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Specialized Certifications -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+                    <div class="text-3xl font-bold text-indigo-600 mb-3">CHTP</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Humanitarian Technology Professional</h3>
+                    <p class="text-gray-600 mb-4">The anchor certification for technology in humanitarian work, covering AI, blockchain, and data systems for social good.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i> 12-week program • <span class="mx-2">•</span> <i class="fas fa-graduation-cap mr-2 ml-2"></i> Capstone project
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+                    <div class="text-3xl font-bold text-green-600 mb-3">CSIP</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Social Impact Professional</h3>
+                    <p class="text-gray-600 mb-4">Broad certification for social change leaders, covering impact measurement, program design, and sustainable development.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i> 10-week program • <span class="mx-2">•</span> <i class="fas fa-graduation-cap mr-2 ml-2"></i> Case studies
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+                    <div class="text-3xl font-bold text-rose-600 mb-3">CHOS</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Humanitarian Operations Specialist</h3>
+                    <p class="text-gray-600 mb-4">Clear operational focus on logistics, supply chain management, and field operations in humanitarian contexts.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i> 8-week program • <span class="mx-2">•</span> <i class="fas fa-graduation-cap mr-2 ml-2"></i> Simulation exercises
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+                    <div class="text-3xl font-bold text-orange-600 mb-3">CDRRS</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Disaster Response & Resilience Specialist</h3>
+                    <p class="text-gray-600 mb-4">Timely and highly relevant certification covering emergency response, risk assessment, and community resilience.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i> 10-week program • <span class="mx-2">•</span> <i class="fas fa-graduation-cap mr-2 ml-2"></i> Field exercises
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+                    <div class="text-3xl font-bold text-purple-600 mb-3">CNLP</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Nonprofit Leadership Professional</h3>
+                    <p class="text-gray-600 mb-4">Strong draw for NGO executives, covering governance, fundraising, strategic planning, and organizational development.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i> 14-week program • <span class="mx-2">•</span> <i class="fas fa-graduation-cap mr-2 ml-2"></i> Leadership project
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+                    <div class="text-3xl font-bold text-blue-600 mb-3">CDIM</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Development & Innovation Manager</h3>
+                    <p class="text-gray-600 mb-4">Focus on innovation in development work, covering design thinking, social entrepreneurship, and sustainable solutions.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i> 12-week program • <span class="mx-2">•</span> <i class="fas fa-graduation-cap mr-2 ml-2"></i> Innovation lab
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capstone Certification -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl p-8 text-center card-hover">
+                <div class="text-5xl font-bold mb-4">CGHS</div>
+                <h3 class="text-3xl font-bold mb-4">Certified Global Humanitarian Strategist</h3>
+                <p class="text-xl mb-6 opacity-90">Our advanced capstone certification for senior professionals, integrating all domains of humanitarian technology and social impact.</p>
+                <div class="bg-white bg-opacity-20 rounded-xl p-6 mb-6 text-left inline-block max-w-4xl">
+                    <h4 class="font-bold text-lg mb-3">Program Features:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center"><i class="fas fa-check mr-3"></i> 6-month intensive program</div>
+                        <div class="flex items-center"><i class="fas fa-check mr-3"></i> Global case studies</div>
+                        <div class="flex items-center"><i class="fas fa-check mr-3"></i> Strategic leadership</div>
+                        <div class="flex items-center"><i class="fas fa-check mr-3"></i> Policy development</div>
+                        <div class="flex items-center"><i class="fas fa-check mr-3"></i> Systems thinking</div>
+                        <div class="flex items-center"><i class="fas fa-check mr-3"></i> Capstone strategy project</div>
+                    </div>
+                </div>
+                <button class="bg-white text-indigo-600 px-8 py-3 rounded-full font-bold hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                     <a href="login form.html" target="_blank">Apply for CGHS Program</a>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Certifications Section -->
+    <section id="volunteers" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Courses & Certifications for Aspiring Volunteers</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Start your journey in humanitarian work with our comprehensive volunteer certification programs.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Certified Professional Volunteer -->
+                <div class="volunteer-card bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-green-600 mb-3">CPV</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Professional Volunteer</h3>
+                    <p class="text-gray-600 mb-4">Foundational certification for individuals beginning their volunteer journey, covering ethics, communication, and basic skills.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Volunteer ethics & conduct</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Communication skills</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Safety & security</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Team collaboration</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-green-600">4 hours • Online</span>
+                         <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full font-bold shadow hover:from-green-600 hover:to-green-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Humanitarian Volunteer -->
+                <div class="volunteer-card bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-blue-600 mb-3">CHV</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Humanitarian Volunteer</h3>
+                    <p class="text-gray-600 mb-4">Specialized training for volunteers in humanitarian contexts, covering disaster response, refugee support, and emergency aid.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Emergency response</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Refugee support</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Supply distribution</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Cultural sensitivity</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-blue-600">6 hours • Hybrid</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full font-bold shadow hover:from-blue-600 hover:to-blue-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Social Change Agent -->
+                <div class="volunteer-card bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-purple-600 mb-3">CSCA</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Social Change Agent</h3>
+                    <p class="text-gray-600 mb-4">Training for individuals passionate about driving social change in their communities through advocacy and grassroots organizing.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Community organizing</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Advocacy strategies</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Campaign development</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Movement building</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-purple-600">8 hours • Online</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-full font-bold shadow hover:from-purple-600 hover:to-purple-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Community Development Practitioner -->
+                <div class="volunteer-card bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-yellow-600 mb-3">CCDP</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Community Development Practitioner</h3>
+                    <p class="text-gray-600 mb-4">Comprehensive training for volunteers working on community development projects, focusing on sustainable solutions and local empowerment.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Needs assessment</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Project planning</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Local partnerships</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Sustainable development</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-yellow-600">10 hours • Field-based</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-6 py-2 rounded-full font-bold shadow hover:from-yellow-600 hover:to-yellow-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Digital Humanitarian -->
+                <div class="volunteer-card bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-indigo-600 mb-3">CDH</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Digital Humanitarian</h3>
+                    <p class="text-gray-600 mb-4">Specialized certification for volunteers using digital tools in humanitarian response, including crisis mapping and data analysis.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Crisis mapping</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Data collection</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Remote sensing</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Digital security</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-indigo-600">6 hours • Online</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-6 py-2 rounded-full font-bold shadow hover:from-indigo-600 hover:to-indigo-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Volunteer Coordinator -->
+                <div class="volunteer-card bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-red-600 mb-3">CVC</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Volunteer Coordinator</h3>
+                    <p class="text-gray-600 mb-4">Training for individuals managing volunteer programs, covering recruitment, training, scheduling, and team leadership.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Volunteer management</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Team leadership</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Scheduling systems</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Performance evaluation</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-red-600">8 hours • Hybrid</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-2 rounded-full font-bold shadow hover:from-red-600 hover:to-red-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Social Entrepreneurship Practitioner -->
+                <div class="volunteer-card bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-green-600 mb-3">CSEP</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Social Entrepreneurship Practitioner</h3>
+                    <p class="text-gray-600 mb-4">Training for volunteers interested in social enterprise, covering business models that create social impact.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Social enterprise models</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Impact measurement</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Funding strategies</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Scaling impact</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-teal-600">10 hours • Online</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full font-bold shadow hover:from-green-600 hover:to-green-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Monitoring & Evaluation Specialist -->
+                <div class="volunteer-card bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-yellow-600 mb-3">CMES</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Monitoring & Evaluation Specialist</h3>
+                    <p class="text-gray-600 mb-4">Specialized training for volunteers involved in monitoring and evaluating humanitarian and development programs.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Data collection methods</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Impact assessment</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Reporting frameworks</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Continuous improvement</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-yellow-600">8 hours • Hybrid</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-yellow-600 text-white px-6 py-2 rounded-full font-bold shadow hover:bg-yellow-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Advocacy and Policy Specialist -->
+                <div class="volunteer-card bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-pink-600 mb-3">CAPS</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Advocacy and Policy Specialist</h3>
+                    <p class="text-gray-600 mb-4">Training for volunteers engaged in advocacy work and policy development for social change.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Policy analysis</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Legislative processes</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Campaign strategy</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Stakeholder engagement</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-pink-600">10 hours • Online</span>
+                         <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-pink-600 text-white px-6 py-2 rounded-full font-bold shadow hover:bg-pink-700 transition-all duration-300" target="_blank">Apply</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certified Crisis Response Volunteer -->
+                <div class="volunteer-card bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 card-hover">
+                    <div class="text-3xl font-bold text-red-600 mb-3">CCRV</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Certified Crisis Response Volunteer</h3>
+                    <p class="text-gray-600 mb-4">Advanced training for volunteers responding to crises, including natural disasters, conflicts, and emergencies.</p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Emergency protocols</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Trauma-informed care</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Rapid assessment</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Coordination systems</li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-lg font-bold text-red-600">12 hours • Field-based</span>
+                            <div class="text-center mt-2">
+                                <a href="login form.html" class="inline-block bg-red-600 text-white px-6 py-2 rounded-full font-bold shadow hover:bg-red-700 transition-all duration-300" target="_blank">Apply</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                     <a href="login form.html" target="_blank">Start Your Volunteer Journey</a>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Library Section -->
+    <section id="library" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Resource Library</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Access our comprehensive collection of learning materials, research papers, and journals for humanitarian technology and social impact professionals.
+                </p>
+            </div>
+            
+            <!-- Search and Filter -->
+            <div class="bg-white rounded-2xl p-6 mb-8 shadow-lg">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-grow">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search Resources</label>
+                        <div class="relative">
+                            <input type="text" placeholder="Search by title, author, or topic..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent pl-10">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Resource Type</label>
+                        <select class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            <option>All Types</option>
+                            <option>Course Materials</option>
+                            <option>Research Journals</option>
+                            <option>Case Studies</option>
+                            <option>Policy Papers</option>
+                            <option>Technical Guides</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resource Categories -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Free Resources -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-green-100 text-green-800 p-3 rounded-xl mr-4">
+                            <i class="fas fa-book-open text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">Free Resources</h3>
+                            <p class="text-gray-600">Open access materials available to all visitors</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Resource 1 -->
+                        <div class="resource-card bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900 mb-1">Introduction to Humanitarian Technology</h4>
+                                    <p class="text-sm text-gray-600 mb-2">A comprehensive guide to the fundamentals of technology in humanitarian work</p>
+                                    <div class="flex flex-wrap mb-2">
+                                        <span class="tag tag-free">Beginner</span>
+                                        <span class="tag tag-journal">Guide</span>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fas fa-user mr-1"></i> Dr. Sarah Johnson • <i class="fas fa-calendar mr-1 ml-2"></i> Jan 2023
+                                    </div>
+                                </div>
+                                <button class="download-btn bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-colors duration-300 ml-4">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Resource 2 -->
+                        <div class="resource-card bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900 mb-1">Volunteer Handbook: Best Practices</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Essential guidelines for effective volunteer engagement</p>
+                                    <div class="flex flex-wrap mb-2">
+                                        <span class="tag tag-free">Volunteer</span>
+                                        <span class="tag tag-journal">Handbook</span>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fas fa-user mr-1"></i> IHTSIP Team • <i class="fas fa-calendar mr-1 ml-2"></i> Mar 2023
+                                    </div>
+                                </div>
+                                <button class="download-btn bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-colors duration-300 ml-4">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Resource 3 -->
+                        <div class="resource-card bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900 mb-1">Digital Literacy for Humanitarian Workers</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Building essential digital skills for modern humanitarian work</p>
+                                    <div class="flex flex-wrap mb-2">
+                                        <span class="tag tag-free">Digital Skills</span>
+                                        <span class="tag tag-journal">Guide</span>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fas fa-user mr-1"></i> Prof. Michael Chen • <i class="fas fa-calendar mr-1 ml-2"></i> Nov 2022
+                                    </div>
+                                </div>
+                                <button class="download-btn bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition-colors duration-300 ml-4">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-6">
+                        <button class="text-green-600 font-medium hover:text-green-700 transition-colors duration-300">
+                            View All Free Resources →
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Paid Resources -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-purple-100 text-purple-800 p-3 rounded-xl mr-4">
+                            <i class="fas fa-certificate text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">Premium Resources</h3>
+                            <p class="text-gray-600">Exclusive materials for enrolled students and members</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Resource 1 -->
+                        <div class="resource-card bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900 mb-1">Advanced Data Analytics for Impact</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Comprehensive course materials for CHTP certification</p>
+                                    <div class="flex flex-wrap mb-2">
+                                        <span class="tag tag-paid">CHTP</span>
+                                        <span class="tag tag-journal">Course</span>
+                                        <span class="tag tag-paid">Advanced</span>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fas fa-user mr-1"></i> Dr. Elena Rodriguez • <i class="fas fa-calendar mr-1 ml-2"></i> Feb 2023
+                                    </div>
+                                </div>
+                                <button class="download-btn bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition-colors duration-300 ml-4">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Resource 2 -->
+                        <div class="resource-card bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900 mb-1">Blockchain Applications in Humanitarian Aid</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Technical guide for implementing blockchain solutions</p>
+                                    <div class="flex flex-wrap mb-2">
+                                        <span class="tag tag-paid">Technology</span>
+                                        <span class="tag tag-journal">Technical Guide</span>
+                                        <span class="tag tag-paid">CHTE</span>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fas fa-user mr-1"></i> Prof. James Wilson • <i class="fas fa-calendar mr-1 ml-2"></i> Sep 2022
+                                    </div>
+                                </div>
+                                <button class="download-btn bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition-colors duration-300 ml-4">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Resource 3 -->
+                        <div class="resource-card bg-gray-50 p-4 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900 mb-1">Strategic Leadership in Nonprofit Organizations</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Executive-level materials for CNLP certification</p>
+                                    <div class="flex flex-wrap mb-2">
+                                        <span class="tag tag-paid">Leadership</span>
+                                        <span class="tag tag-journal">Executive</span>
+                                        <span class="tag tag-paid">CNLP</span>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <i class="fas fa-user mr-1"></i> Dr. Patricia Lee • <i class="fas fa-calendar mr-1 ml-2"></i> Dec 2022
+                                    </div>
+                                </div>
+                                <button class="download-btn bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition-colors duration-300 ml-4">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-blue-800 font-medium">Premium Access Required</p>
+                                <p class="text-sm text-blue-700">These resources are available to enrolled students, certified professionals, and premium members. <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Learn more about membership benefits</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Journals Section -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg">
+                <div class="flex items-center mb-6">
+                    <div class="bg-indigo-100 text-indigo-800 p-3 rounded-xl mr-4">
+                        <i class="fas fa-newspaper text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">Research Journals</h3>
+                        <p class="text-gray-600">Peer-reviewed publications on humanitarian technology and social impact</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Journal 1 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow duration-300">
+                        <div class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">Vol. 15, Issue 3</div>
+                        <h4 class="font-bold text-gray-900 mb-3">Innovations in Disaster Response Technology</h4>
+                        <p class="text-sm text-gray-600 mb-4">Exploring the latest technological advancements in disaster response systems and their impact on humanitarian operations.</p>
+                        <div class="text-sm text-gray-500 mb-4">
+                            <div>Dr. Anna Thompson, Dr. Robert Kim</div>
+                            <div class="mt-1">Harvard Humanitarian Initiative</div>
+                        </div>
+                        <button class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300 text-sm font-medium">
+                            Read Full Article
+                        </button>
+                    </div>
+                    
+                    <!-- Journal 2 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow duration-300">
+                        <div class="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">Vol. 8, Issue 2</div>
+                        <h4 class="font-bold text-gray-900 mb-3">Measuring Social Impact: New Frameworks</h4>
+                        <p class="text-sm text-gray-600 mb-4">Developing comprehensive metrics for evaluating the effectiveness of social impact initiatives.</p>
+                        <div class="text-sm text-gray-500 mb-4">
+                            <div>Prof. Maria Gonzalez, Dr. David Park</div>
+                            <div class="mt-1">Stanford Social Innovation Review</div>
+                        </div>
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors duration-300 text-sm font-medium">
+                            Read Full Article
+                        </button>
+                    </div>
+                    
+                    <!-- Journal 3 -->
+                    <div class="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow duration-300">
+                        <div class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">Vol. 12, Issue 4</div>
+                        <h4 class="font-bold text-gray-900 mb-3">Blockchain for Transparent Aid Distribution</h4>
+                        <p class="text-sm text-gray-600 mb-4">Case studies on implementing blockchain technology to enhance transparency in humanitarian aid.</p>
+                        <div class="text-sm text-gray-500 mb-4">
+                            <div>Dr. Michael Chen, Prof. Sarah Johnson</div>
+                            <div class="mt-1">MIT Humanitarian Lab</div>
+                        </div>
+                        <button class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors duration-300 text-sm font-medium">
+                            Read Full Article
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button class="text-indigo-600 font-medium hover:text-indigo-700 transition-colors duration-300">
+                        Browse All Journal Issues →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Verification Section -->
+    <section id="certificates" class="py-20 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Certificate Verification</h2>
+                <p class="text-xl opacity-90 max-w-3xl mx-auto">
+                    Employers and stakeholders can instantly verify credentials issued by the Institute of Humanitarian Technology and Social Impact Professionals.
+                </p>
+            </div>
+            
+            <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-2xl p-8 max-w-4xl mx-auto animate-in" style="animation-delay: 0.3s">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Enter Certificate ID</label>
+                    <div class="flex">
+                        <input type="text" placeholder="e.g., IHTSIP-2023-XXXXX" class="flex-grow px-4 py-3 rounded-l-lg bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70 border-0 focus:ring-2 focus:ring-white focus:outline-none">
+                        <button class="bg-white text-purple-600 px-6 py-3 rounded-r-lg font-semibold hover:shadow-lg transition-all duration-300">
+                            Verify
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Verification Results (Initially Hidden) -->
+                <div id="verification-result" class="hidden mb-6 p-6 rounded-xl verification-result">
+                    <div class="flex items-start">
+                        <i class="fas fa-check-circle text-3xl text-green-600 mt-1 mr-4"></i>
+                        <div>
+                            <h3 class="text-xl font-bold text-green-800 mb-2">Valid Certificate</h3>
+                            <p class="text-green-700 mb-3">This certificate is authentic and was issued by IHTSIP.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <strong>Certificate Holder:</strong> Jane Smith
+                                </div>
+                                <div>
+                                    <strong>Certification:</strong> CHTP
+                                </div>
+                                <div>
+                                    <strong>Issue Date:</strong> March 15, 2023
+                                </div>
+                                <div>
+                                    <strong>Expiration:</strong> March 15, 2026
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Verification Error (Initially Hidden) -->
+                <div id="verification-error" class="hidden mb-6 p-6 rounded-xl verification-error">
+                    <div class="flex items-start">
+                        <i class="fas fa-exclamation-triangle text-3xl text-red-600 mt-1 mr-4"></i>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-800 mb-2">Invalid Certificate</h3>
+                            <p class="text-red-700">The certificate ID entered could not be verified. Please check the ID and try again.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-white border-opacity-20 pt-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-yellow-300">100%</div>
+                            <div class="text-sm opacity-90">Authenticity</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-300">Instant</div>
+                            <div class="text-sm opacity-90">Verification</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-blue-300">Secure</div>
+                            <div class="text-sm opacity-90">Blockchain</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <img src="https://placehold.co/800x300/ffffff/6366f1?text=Certificate+Sample" alt="Certificate Sample" class="rounded-xl mx-auto shadow-2xl">
+            </div>
+            
+            <div class="text-center mt-8">
+                <p class="text-sm opacity-90">
+                    Our certificates are secured with blockchain technology to prevent fraud and ensure authenticity.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-2 rounded-lg mr-3">
+                            <i class="fas fa-hands-helping text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">IHTSIP</h3>
+                            <p class="text-sm text-gray-400">Humanitarian Tech Institute</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Empowering humanitarian professionals through technology-driven education and innovation.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="#membership" class="text-gray-400 hover:text-white transition-colors duration-300">Membership</a></li>
+                        <li><a href="#certifications" class="text-gray-400 hover:text-white transition-colors duration-300">Certifications</a></li>
+                        <li><a href="#volunteers" class="text-gray-400 hover:text-white transition-colors duration-300">Volunteers</a></li>
+                        <li><a href="#library" class="text-gray-400 hover:text-white transition-colors duration-300">Library</a></li>
+                        <li><a href="#certificates" class="text-gray-400 hover:text-white transition-colors duration-300">Verify Certificates</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Certification Tracks</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Humanitarian Technology</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Social Impact & Development</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Disaster Response</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Nonprofit Leadership</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Global Strategy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-400">
+                    &copy; 2025 IHTSIP. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Certificate verification simulation
+            const verifyButton = document.querySelector('#certificates button');
+            const verificationResult = document.getElementById('verification-result');
+            const verificationError = document.getElementById('verification-error');
+            const certificateInput = document.querySelector('#certificates input');
+            
+            verifyButton.addEventListener('click', function() {
+                // Clear previous results
+                verificationResult.classList.add('hidden');
+                verificationError.classList.add('hidden');
+                
+                // Simulate verification (in real implementation, this would be an API call)
+                const certificateId = certificateInput.value.trim();
+                
+                if (certificateId && certificateId.length > 5) {
+                    // Simulate successful verification (in real implementation, check against database)
+                    setTimeout(() => {
+                        verificationResult.classList.remove('hidden');
+                    }, 800);
+                } else {
+                    // Show error for empty or short IDs
+                    setTimeout(() => {
+                        verificationError.classList.remove('hidden');
+                    }, 300);
+                }
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Update active navigation link based on scroll position
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('scroll-active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('scroll-active');
+                    }
+                });
+            });
+            
+            // Resource download simulation
+            document.querySelectorAll('.download-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const isLocked = this.querySelector('i').classList.contains('fa-lock');
+                    
+                    if (isLocked) {
+                        alert('This resource requires premium access. Please log in or upgrade your membership to download.');
+                    } else {
+                        alert('Downloading resource... In a real implementation, the file would be downloaded now.');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const counters = document.querySelectorAll('.stat-number');
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText.replace(/,/g, '');
+            const increment = Math.ceil(target / 100);
+
+            if (count < target) {
+                counter.innerText = (count + increment) > target ? target : count + increment;
+                setTimeout(updateCount, 20);
+            } else {
+                counter.innerText = target.toLocaleString();
+            }
+        };
+        updateCount();
+    });
+});
+</script>
+</body>
+</html>

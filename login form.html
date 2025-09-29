@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IHTSIP - Administrative Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/IHTSIP_icon.ico" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .animate-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .animate-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #6366f1;
+        }
+        
+        .scroll-active {
+            color: #6366f1;
+            font-weight: 600;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        .step-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        
+        .step-completed {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .step-current {
+            background-color: #6366f1;
+            color: white;
+        }
+        
+        .step-pending {
+            background-color: #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: #6366f1;
+            background-color: #f3f4f6;
+        }
+        
+        .upload-area.dragover {
+            border-color: #6366f1;
+            background-color: #ede9fe;
+        }
+        
+        .admin-sidebar {
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            background-color: #1f2937;
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+        }
+        
+        .admin-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1rem;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            color: #6366f1;
+            border-bottom-color: #6366f1;
+            font-weight: 500;
+        }
+        
+        .certificate-preview {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-approved {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-rejected {
+            background-color: #fecaca;
+            color: #991b1b;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background-color: #f3f4f6;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 500;
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f9fafb;
+        }
+        
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+        
+        .action-edit {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+        }
+        
+        .action-edit:hover {
+            background-color: #c7d2fe;
+        }
+        
+        .action-delete {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .action-delete:hover {
+            background-color: #fecaca;
+        }
+        
+        .action-view {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .action-view:hover {
+            background-color: #bfdbfe;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white shadow-lg z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-2 rounded-lg mr-3">
+                        <i class="fas fa-hands-helping text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">IHTSIP</h1>
+                        <p class="text-xs text-gray-600">Humanitarian Tech Institute</p>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#enroll" class="nav-link text-gray-700 font-medium">Enroll Now</a>
+                    <a href="#cghs" class="nav-link text-gray-700 font-medium">Apply for CGHS</a>
+                    <a href="#volunteer" class="nav-link text-gray-700 font-medium">Volunteer Journey</a>
+                    <a href="#admin" class="nav-link text-gray-700 font-medium">Admin Portal</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300 font-medium">
+                        Sign In
+                    </button>
+                    
+                    <button class="md:hidden text-gray-700">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enrollment Form -->
+    <section id="enroll" class="pt-24 pb-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Enroll in a Course</h2>
+                    <p class="text-lg text-gray-600">Complete the form below to enroll in one of our programs</p>
+                </div>
+                
+                <form id="enrollment-form">
+                    <!-- Progress Steps -->
+                    <div class="flex justify-between mb-8">
+                        <div class="text-center">
+                            <div class="step-indicator step-current">1</div>
+                            <div class="text-sm font-medium text-purple-600">Personal Info</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="step-indicator step-pending">2</div>
+                            <div class="text-sm text-gray-500">Course Selection</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="step-indicator step-pending">3</div>
+                            <div class="text-sm text-gray-500">Payment</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-step active" id="step1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Personal Information</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                <input type="text" name="firstName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                <input type="text" name="lastName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Current Affiliation</label>
+                            <input type="text" name="affiliation" placeholder="University, organization, or company" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Professional Background</label>
+                            <textarea name="background" rows="4" placeholder="Briefly describe your professional experience and background" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Reset
+                            </button>
+                            <button type="button" onclick="nextStep(1)" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Course Selection -->
+                    <div class="form-step" id="step2">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Course Selection</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Program Type *</label>
+                            <select name="programType" required onchange="updateCourseOptions()" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                <option value="">Select a program type</option>
+                                <option value="professional">Professional Certification</option>
+                                <option value="volunteer">Volunteer Certification</option>
+                                <option value="membership">Membership Program</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Course *</label>
+                            <select name="course" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" id="courseSelect">
+                                <option value="">First select a program type</option>
+                            </select>
+                        </div>
+                        
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+                            <div class="flex">
+                                <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-blue-800 font-medium">Course Information</p>
+                                    <p class="text-sm text-blue-700" id="courseInfo">Select a course to view details.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep(2)" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Back
+                            </button>
+                            <button type="button" onclick="nextStep(2)" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Payment -->
+                    <div class="form-step" id="step3">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Payment Information</h3>
+                        
+                        <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+                            <div class="flex">
+                                <i class="fas fa-check-circle text-green-600 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="text-sm text-green-800 font-medium">Course Confirmation</p>
+                                    <p class="text-sm text-green-700" id="paymentCourse">Course details will appear here.</p>
+                                    <p class="text-sm text-green-700 font-bold" id="paymentAmount">Amount: $0</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Payment Method *</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center">
+                                    <input type="radio" name="paymentMethod" value="credit" checked class="mr-3">
+                                    <span>Credit/Debit Card</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="paymentMethod" value="paypal" class="mr-3">
+                                    <span>PayPal</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="paymentMethod" value="bank" class="mr-3">
+                                    <span>Bank Transfer</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Credit Card Details (only shown if credit selected) -->
+                        <div id="creditCardDetails">
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Card Number *</label>
+                                <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date *</label>
+                                    <input type="text" name="expiryDate" placeholder="MM/YY" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
+                                    <input type="text" name="cvv" placeholder="123" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Cardholder Name *</label>
+                                <input type="text" name="cardholderName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="terms" required class="mt-1 mr-3">
+                                <span class="text-sm text-gray-700">I agree to the <a href="#" class="text-purple-600 hover:underline">Terms and Conditions</a> and <a href="#" class="text-purple-600 hover:underline">Privacy Policy</a></span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep(3)" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Back
+                            </button>
+                            <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-300">
+                                Complete Enrollment
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CGHS Application Form -->
+    <section id="cghs" class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Apply for CGHS Program</h2>
+                    <p class="text-lg text-gray-600">The Certified Global Humanitarian Strategist program is our most advanced certification</p>
+                </div>
+                
+                <form id="cghs-form">
+                    <!-- Progress Steps -->
+                    <div class="flex justify-between mb-8">
+                        <div class="text-center">
+                            <div class="step-indicator step-current">1</div>
+                            <div class="text-sm font-medium text-purple-600">Personal Info</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="step-indicator step-pending">2</div>
+                            <div class="text-sm text-gray-500">Professional Background</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="step-indicator step-pending">3</div>
+                            <div class="text-sm text-gray-500">Experience & Achievements</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="step-indicator step-pending">4</div>
+                            <div class="text-sm text-gray-500">References</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-step active" id="cghs-step1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Personal Information</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                <input type="text" name="fullName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Professional Title</label>
+                                <input type="text" name="title" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                                <input type="tel" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Current Organization *</label>
+                            <input type="text" name="organization" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Organization Type *</label>
+                            <select name="orgType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                <option value="">Select organization type</option>
+                                <option value="ngo">NGO/Non-profit</option>
+                                <option value="government">Government Agency</option>
+                                <option value="un">UN Agency</option>
+                                <option value="academic">Academic Institution</option>
+                                <option value="private">Private Sector</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Reset
+                            </button>
+                            <button type="button" onclick="nextStep('cghs', 1)" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Professional Background -->
+                    <div class="form-step" id="cghs-step2">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Professional Background</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Current Role & Responsibilities *</label>
+                            <textarea name="responsibilities" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Relevant Certifications *</label>
+                            <textarea name="certifications" rows="3" placeholder="List your relevant certifications (one per line)" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Professional Memberships</label>
+                            <textarea name="memberships" rows="3" placeholder="List any professional memberships (one per line)" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">How did you hear about the CGHS program?</label>
+                            <select name="hearAbout" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                <option value="">Select an option</option>
+                                <option value="website">IHTSIP Website</option>
+                                <option value="colleague">Colleague/Peer</option>
+                                <option value="conference">Conference/Event</option>
+                                <option value="social">Social Media</option>
+                                <option value="publication">Publication</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep('cghs', 2)" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Back
+                            </button>
+                            <button type="button" onclick="nextStep('cghs', 2)" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Experience & Achievements -->
+                    <div class="form-step" id="cghs-step3">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Experience & Achievements</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Describe your most significant humanitarian achievement *</label>
+                            <textarea name="achievement" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                            <p class="text-sm text-gray-500 mt-1">Please include context, your role, challenges faced, and impact achieved.</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Describe a complex humanitarian challenge you've addressed *</label>
+                            <textarea name="challenge" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                            <p class="text-sm text-gray-500 mt-1">Include your approach, stakeholders involved, and outcomes.</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">How do you stay current with developments in humanitarian technology? *</label>
+                            <textarea name="currentKnowledge" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep('cghs', 3)" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Back
+                            </button>
+                            <button type="button" onclick="nextStep('cghs', 3)" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: References -->
+                    <div class="form-step" id="cghs-step4">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">References</h3>
+                        
+                        <p class="text-sm text-gray-600 mb-6">Please provide contact information for two professional references who can speak to your humanitarian work and leadership capabilities.</p>
+                        
+                        <!-- Reference 1 -->
+                        <div class="border border-gray-200 rounded-lg p-6 mb-6">
+                            <h4 class="font-bold text-gray-900 mb-4">Reference 1 *</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                    <input type="text" name="ref1Name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Position/Title *</label>
+                                    <input type="text" name="ref1Title" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Organization *</label>
+                                    <input type="text" name="ref1Org" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Relationship to You *</label>
+                                    <input type="text" name="ref1Relationship" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                    <input type="email" name="ref1Email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                                    <input type="tel" name="ref1Phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Reference 2 -->
+                        <div class="border border-gray-200 rounded-lg p-6 mb-6">
+                            <h4 class="font-bold text-gray-900 mb-4">Reference 2 *</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                    <input type="text" name="ref2Name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Position/Title *</label>
+                                    <input type="text" name="ref2Title" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Organization *</label>
+                                    <input type="text" name="ref2Org" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Relationship to You *</label>
+                                    <input type="text" name="ref2Relationship" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                    <input type="email" name="ref2Email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                                    <input type="tel" name="ref2Phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="consent" required class="mt-1 mr-3">
+                                <span class="text-sm text-gray-700">I authorize IHTSIP to contact my references for verification purposes</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep('cghs', 4)" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Back
+                            </button>
+                            <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-300">
+                                Submit Application
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer Journey Form -->
+    <section id="volunteer" class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Start Your Volunteer Journey</h2>
+                    <p class="text-lg text-gray-600">Complete the form below to begin your path as a certified volunteer</p>
+                </div>
+                
+                <form id="volunteer-form">
+                    <!-- Progress Steps -->
+                    <div class="flex justify-between mb-8">
+                        <div class="text-center">
+                            <div class="step-indicator step-current">1</div>
+                            <div class="text-sm font-medium text-purple-600">Personal Info</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="step-indicator step-pending">2</div>
+                            <div class="text-sm text-gray-500">Interests & Skills</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="step-indicator step-pending">3</div>
+                            <div class="text-sm text-gray-500">Availability</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-step active" id="volunteer-step1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Personal Information</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                <input type="text" name="firstName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                <input type="text" name="lastName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                                <input type="tel" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth *</label>
+                            <input type="date" name="dob" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Current Address *</label>
+                            <textarea name="address" rows="3" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Reset
+                            </button>
+                            <button type="button" onclick="nextStep('volunteer', 1)" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Interests & Skills -->
+                    <div class="form-step" id="volunteer-step2">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Interests & Skills</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">What motivates you to volunteer? *</label>
+                            <textarea name="motivation" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Select your areas of interest (choose up to 3) *</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="disaster-response" class="mr-3">
+                                    <span>Disaster Response</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="community-development" class="mr-3">
+                                    <span>Community Development</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="healthcare" class="mr-3">
+                                    <span>Healthcare</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="education" class="mr-3">
+                                    <span>Education</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="environment" class="mr-3">
+                                    <span>Environment</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="advocacy" class="mr-3">
+                                    <span>Advocacy & Policy</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="technology" class="mr-3">
+                                    <span>Technology for Good</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="interests" value="refugee-support" class="mr-3">
+                                    <span>Refugee Support</span>
+                                </label>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">You can select up to 3 areas of interest.</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Relevant Skills & Experience</label>
+                            <textarea name="skills" rows="4" placeholder="List your relevant skills, experience, and qualifications" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Languages Spoken</label>
+                            <input type="text" name="languages" placeholder="English, Spanish, French, etc." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep('volunteer', 2)" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Back
+                            </button>
+                            <button type="button" onclick="nextStep('volunteer', 2)" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Availability -->
+                    <div class="form-step" id="volunteer-step3">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Availability</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Volunteer Role *</label>
+                            <select name="preferredRole" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                <option value="">Select your preferred role</option>
+                                <option value="field-worker">Field Worker</option>
+                                <option value="coordinator">Coordinator</option>
+                                <option value="technical">Technical Specialist</option>
+                                <option value="administrative">Administrative Support</option>
+                                <option value="remote">Remote Volunteer</option>
+                                <option value="event">Event Support</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Availability *</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center">
+                                    <input type="radio" name="availability" value="full-time" required class="mr-3">
+                                    <span>Full-time (35+ hours/week)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="availability" value="part-time" class="mr-3">
+                                    <span>Part-time (10-34 hours/week)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="availability" value="occasional" class="mr-3">
+                                    <span>Occasional (less than 10 hours/week)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Location(s) for Volunteering</label>
+                            <input type="text" name="locations" placeholder="Local, Regional, International, etc." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">When can you start volunteering?</label>
+                            <select name="startDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                <option value="">Select an option</option>
+                                <option value="immediately">Immediately</option>
+                                <option value="1-month">Within 1 month</option>
+                                <option value="3-months">Within 3 months</option>
+                                <option value="6-months">Within 6 months</option>
+                                <option value="flexible">Flexible/To be determined</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="consent" required class="mt-1 mr-3">
+                                <span class="text-sm text-gray-700">I agree to the <a href="#" class="text-purple-600 hover:underline">Volunteer Code of Conduct</a> and <a href="#" class="text-purple-600 hover:underline">Privacy Policy</a></span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" onclick="prevStep('volunteer', 3)" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+                                Back
+                            </button>
+                            <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-300">
+                                Complete Registration
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Portal -->
+    <section id="admin" class="py-16">
+        <div class="admin-sidebar">
+            <div class="px-6 mb-8">
+                <h2 class="text-2xl font-bold text-white">Admin Portal</h2>
+                <p class="text-gray-300 text-sm">IHTSIP Management System</p>
+            </div>
+            
+            <nav class="px-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#admin-dashboard" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors duration-300">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#admin-resources" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors duration-300">
+                            <i class="fas fa-book mr-3"></i>
+                            Resources
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#admin-certificates" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors duration-300">
+                            <i class="fas fa-certificate mr-3"></i>
+                            Certificates
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#admin-applications" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors duration-300">
+                            <i class="fas fa-file-alt mr-3"></i>
+                            Applications
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#admin-users" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors duration-300">
+                            <i class="fas fa-users mr-3"></i>
+                            Users
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#admin-settings" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors duration-300">
+                            <i class="fas fa-cog mr-3"></i>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="admin-content">
+            <!-- Admin Dashboard -->
+            <div id="admin-dashboard" class="space-y-8">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Admin Dashboard</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-xl">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-blue-100 text-sm">Total Users</p>
+                                    <p class="text-3xl font-bold">12,458</p>
+                                </div>
+                                <i class="fas fa-users text-2xl opacity-80"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-green-100 text-sm">Active Courses</p>
+                                    <p class="text-3xl font-bold">89</p>
+                                </div>
+                                <i class="fas fa-graduation-cap text-2xl opacity-80"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-xl">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-purple-100 text-sm">Certificates Issued</p>
+                                    <p class="text-3xl font-bold">3,247</p>
+                                </div>
+                                <i class="fas fa-certificate text-2xl opacity-80"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-xl">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-orange-100 text-sm">Pending Verifications</p>
+                                    <p class="text-3xl font-bold">23</p>
+                                </div>
+                                <i class="fas fa-check-circle text-2xl opacity-80"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">Recent Activity</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="bg-green-100 text-green-800 p-2 rounded-full mr-3">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">New user registered</p>
+                                        <p class="text-xs text-gray-500">Sarah Johnson • 10 min ago</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="bg-blue-100 text-blue-800 p-2 rounded-full mr-3">
+                                        <i class="fas fa-certificate"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">Certificate issued</p>
+                                        <p class="text-xs text-gray-500">CHTP to Michael Chen • 1 hour ago</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="bg-purple-100 text-purple-800 p-2 rounded-full mr-3">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">New resource uploaded</p>
+                                        <p class="text-xs text-gray-500">Disaster Response Guide • 3 hours ago</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="bg-yellow-100 text-yellow-800 p-2 rounded-full mr-3">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">New application received</p>
+                                        <p class="text-xs text-gray-500">CGHS Program • 5 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">System Status</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">User Database</span>
+                                    <span class="status-badge status-approved">Operational</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Certificate Verification</span>
+                                    <span class="status-badge status-approved">Operational</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Resource Library</span>
+                                    <span class="status-badge status-approved">Operational</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Payment Processing</span>
+                                    <span class="status-badge status-pending">Maintenance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Resources -->
+            <div id="admin-resources" class="hidden space-y-8">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">Resource Management</h2>
+                        <button onclick="openModal('uploadResourceModal')" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                            <i class="fas fa-plus mr-2"></i> Upload Resource
+                        </button>
+                    </div>
+                    
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <div class="flex space-x-8">
+                            <button class="tab-button active" onclick="switchTab('all-resources')">All Resources</button>
+                            <button class="tab-button" onclick="switchTab('course-materials')">Course Materials</button>
+                            <button class="tab-button" onclick="switchTab('journals')">Journals</button>
+                            <button class="tab-button" onclick="switchTab('guides')">Guides & Handbooks</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Resource Table -->
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Category</th>
+                                    <th>Author</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Introduction to Humanitarian Technology</td>
+                                    <td>Guide</td>
+                                    <td>Beginner</td>
+                                    <td>Dr. Sarah Johnson</td>
+                                    <td>Jan 15, 2023</td>
+                                    <td><span class="status-badge status-approved">Published</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Advanced Data Analytics for Impact</td>
+                                    <td>Course Material</td>
+                                    <td>CHTP</td>
+                                    <td>Dr. Elena Rodriguez</td>
+                                    <td>Feb 20, 2023</td>
+                                    <td><span class="status-badge status-approved">Published</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Blockchain Applications in Humanitarian Aid</td>
+                                    <td>Technical Guide</td>
+                                    <td>Technology</td>
+                                    <td>Prof. James Wilson</td>
+                                    <td>Sep 10, 2022</td>
+                                    <td><span class="status-badge status-approved">Published</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Innovations in Disaster Response Technology</td>
+                                    <td>Journal Article</td>
+                                    <td>Vol. 15, Issue 3</td>
+                                    <td>Dr. Anna Thompson</td>
+                                    <td>Mar 5, 2023</td>
+                                    <td><span class="status-badge status-approved">Published</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Volunteer Handbook: Best Practices</td>
+                                    <td>Handbook</td>
+                                    <td>Volunteer</td>
+                                    <td>IHTSIP Team</td>
+                                    <td>Mar 12, 2023</td>
+                                    <td><span class="status-badge status-approved">Published</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Certificates -->
+            <div id="admin-certificates" class="hidden space-y-8">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">Certificate Management</h2>
+                        <button onclick="openModal('issueCertificateModal')" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-300">
+                            <i class="fas fa-certificate mr-2"></i> Issue Certificate
+                        </button>
+                    </div>
+                    
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <div class="flex space-x-8">
+                            <button class="tab-button active" onclick="switchTab('all-certificates')">All Certificates</button>
+                            <button class="tab-button" onclick="switchTab('pending-verifications')">Pending Verifications</button>
+                            <button class="tab-button" onclick="switchTab('recent-issues')">Recent Issues</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate Table -->
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Certificate ID</th>
+                                    <th>Recipient</th>
+                                    <th>Certification</th>
+                                    <th>Issue Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IHTSIP-2023-00123</td>
+                                    <td>Jane Smith</td>
+                                    <td>CHTP</td>
+                                    <td>Mar 15, 2023</td>
+                                    <td>Mar 15, 2026</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Revoke</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>IHTSIP-2023-00124</td>
+                                    <td>Michael Chen</td>
+                                    <td>CSIP</td>
+                                    <td>Mar 10, 2023</td>
+                                    <td>Mar 10, 2026</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Revoke</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>IHTSIP-2023-00125</td>
+                                    <td>Anna Thompson</td>
+                                    <td>CHOS</td>
+                                    <td>Mar 8, 2023</td>
+                                    <td>Mar 8, 2026</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Revoke</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>IHTSIP-2023-00126</td>
+                                    <td>Robert Kim</td>
+                                    <td>CDRRS</td>
+                                    <td>Mar 5, 2023</td>
+                                    <td>Mar 5, 2026</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Revoke</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>IHTSIP-2023-00127</td>
+                                    <td>Maria Gonzalez</td>
+                                    <td>CNLP</td>
+                                    <td>Mar 1, 2023</td>
+                                    <td>Mar 1, 2026</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Revoke</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Applications -->
+            <div id="admin-applications" class="hidden space-y-8">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Application Management</h2>
+                    
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <div class="flex space-x-8">
+                            <button class="tab-button active" onclick="switchTab('all-applications')">All Applications</button>
+                            <button class="tab-button" onclick="switchTab('cghs-applications')">CGHS Applications</button>
+                            <button class="tab-button" onclick="switchTab('enrollment-applications')">Enrollment Applications</button>
+                            <button class="tab-button" onclick="switchTab('volunteer-applications')">Volunteer Applications</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Application Table -->
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Applicant</th>
+                                    <th>Program</th>
+                                    <th>Submitted</th>
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sarah Johnson</td>
+                                    <td>CGHS Program</td>
+                                    <td>Mar 18, 2023</td>
+                                    <td><span class="status-badge status-pending">Under Review</span></td>
+                                    <td>High</td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">Review</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Michael Chen</td>
+                                    <td>CHTP Certification</td>
+                                    <td>Mar 17, 2023</td>
+                                    <td><span class="status-badge status-approved">Approved</span></td>
+                                    <td>Medium</td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Cancel</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Anna Thompson</td>
+                                    <td>Volunteer Program</td>
+                                    <td>Mar 16, 2023</td>
+                                    <td><span class="status-badge status-approved">Approved</span></td>
+                                    <td>Low</td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Cancel</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>James Wilson</td>
+                                    <td>CSIP Certification</td>
+                                    <td>Mar 15, 2023</td>
+                                    <td><span class="status-badge status-pending">Under Review</span></td>
+                                    <td>Medium</td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">Review</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Patricia Lee</td>
+                                    <td>CHOS Certification</td>
+                                    <td>Mar 14, 2023</td>
+                                    <td><span class="status-badge status-rejected">Rejected</span></td>
+                                    <td>Low</td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Users -->
+            <div id="admin-users" class="hidden space-y-8">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">User Management</h2>
+                        <button onclick="openModal('addUserModal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                            <i class="fas fa-user-plus mr-2"></i> Add User
+                        </button>
+                    </div>
+                    
+                    <!-- User Table -->
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Membership</th>
+                                    <th>Joined</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sarah Johnson</td>
+                                    <td>sarah.johnson@email.com</td>
+                                    <td>Full Member</td>
+                                    <td>Jan 15, 2022</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Suspend</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Michael Chen</td>
+                                    <td>michael.chen@email.com</td>
+                                    <td>Associate Member</td>
+                                    <td>Mar 10, 2023</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Suspend</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Anna Thompson</td>
+                                    <td>anna.thompson@email.com</td>
+                                    <td>Student Member</td>
+                                    <td>Feb 5, 2023</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Suspend</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>James Wilson</td>
+                                    <td>james.wilson@email.com</td>
+                                    <td>Full Member</td>
+                                    <td>Nov 20, 2021</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Suspend</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Patricia Lee</td>
+                                    <td>patricia.lee@email.com</td>
+                                    <td>Fellow</td>
+                                    <td>Aug 15, 2020</td>
+                                    <td><span class="status-badge status-approved">Active</span></td>
+                                    <td>
+                                        <button class="action-button action-view mr-2">View</button>
+                                        <button class="action-button action-edit mr-2">Edit</button>
+                                        <button class="action-button action-delete">Suspend</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Resource Modal -->
+    <div id="uploadResourceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('uploadResourceModal')">&times;</span>
+            <h3 class="text-xl font-bold text-gray-900 mb-6">Upload New Resource</h3>
+            
+            <form id="upload-resource-form">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Resource Title *</label>
+                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Resource Type *</label>
+                    <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        <option value="">Select resource type</option>
+                        <option value="course">Course Material</option>
+                        <option value="journal">Journal Article</option>
+                        <option value="guide">Guide/Handbook</option>
+                        <option value="case">Case Study</option>
+                        <option value="policy">Policy Paper</option>
+                        <option value="technical">Technical Guide</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category/Tags</label>
+                    <input type="text" placeholder="e.g., Beginner, CHTP, Technology" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Author(s) *</label>
+                    <input type="text" required placeholder="Full name(s)" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea rows="4" placeholder="Brief description of the resource" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Access Level *</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="radio" name="access" value="free" checked class="mr-3">
+                            <span>Free Access (Available to all)</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="access" value="premium" class="mr-3">
+                            <span>Premium Access (Members only)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload File *</label>
+                    <div class="upload-area" id="fileUploadArea">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                        <p class="text-gray-600 mb-2">Drag & drop your file here, or click to browse</p>
+                        <p class="text-sm text-gray-500">PDF, DOC, PPT up to 50MB</p>
+                        <input type="file" id="resourceFile" class="hidden" accept=".pdf,.doc,.docx,.ppt,.pptx">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeModal('uploadResourceModal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors duration-300 mr-3">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors duration-300">
+                        Upload Resource
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Issue Certificate Modal -->
+    <div id="issueCertificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('issueCertificateModal')">&times;</span>
+            <h3 class="text-xl font-bold text-gray-900 mb-6">Issue Certificate</h3>
+            
+            <form id="issue-certificate-form">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Recipient *</label>
+                    <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        <option value="">Select a user</option>
+                        <option value="1">Sarah Johnson</option>
+                        <option value="2">Michael Chen</option>
+                        <option value="3">Anna Thompson</option>
+                        <option value="4">James Wilson</option>
+                        <option value="5">Patricia Lee</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Certification Type *</label>
+                    <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        <option value="">Select certification</option>
+                        <option value="chtp">Certified Humanitarian Technology Professional (CHTP)</option>
+                        <option value="csip">Certified Social Impact Professional (CSIP)</option>
+                        <option value="chos">Certified Humanitarian Operations Specialist (CHOS)</option>
+                        <option value="cdrds">Certified Disaster Response & Resilience Specialist (CDRRS)</option>
+                        <option value="cnlp">Certified Nonprofit Leadership Professional (CNLP)</option>
+                        <option value="cghs">Certified Global Humanitarian Strategist (CGHS)</option>
+                        <option value="cpv">Certified Professional Volunteer (CPV)</option>
+                        <option value="chv">Certified Humanitarian Volunteer (CHV)</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Issue Date *</label>
+                    <input type="date" required value="2023-03-20" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date *</label>
+                    <input type="date" required value="2026-03-20" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Certificate ID</label>
+                    <input type="text" value="IHTSIP-2023-XXXXX" readonly class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100">
+                    <p class="text-xs text-gray-500 mt-1">System will generate a unique ID automatically</p>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Notes (Optional)</label>
+                    <textarea rows="3" placeholder="Additional notes about this certification" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                </div>
+                
+                <div class="certificate-preview mb-6">
+                    <h4 class="font-bold text-gray-900 mb-3">Certificate Preview</h4>
+                    <div class="border border-gray-300 rounded p-4 bg-white">
+                        <div class="text-center">
+                            <h5 class="text-lg font-bold text-gray-900">Certificate of Achievement</h5>
+                            <p class="text-sm text-gray-600 mb-4">This certifies that</p>
+                            <p class="text-xl font-bold text-gray-900">[Recipient Name]</p>
+                            <p class="text-sm text-gray-600 mb-4">has successfully completed the</p>
+                            <p class="text-lg font-bold text-gray-900">[Certification Name]</p>
+                            <p class="text-sm text-gray-600 mb-4">on [Issue Date]</p>
+                            <p class="text-xs text-gray-500">Certificate ID: IHTSIP-2023-XXXXX</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeModal('issueCertificateModal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors duration-300 mr-3">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-300">
+                        Issue Certificate
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addUserModal')">&times;</span>
+            <h3 class="text-xl font-bold text-gray-900 mb-6">Add New User</h3>
+            
+            <form id="add-user-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                        <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                        <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                    <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Membership Level *</label>
+                    <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        <option value="">Select membership level</option>
+                        <option value="eis">Emerging Impact Scholar</option>
+                        <option value="student">Student Member</option>
+                        <option value="graduate">Graduate Member</option>
+                        <option value="associate">Associate Member</option>
+                        <option value="full">Full Member</option>
+                        <option value="fellow">Fellow</option>
+                        <option value="doctoral">Doctoral Fellow</option>
+                        <option value="professorial">Professorial Fellow</option>
+                        <option value="change">Change Ambassador</option>
+                        <option value="honorary">Honorary Doctorate</option>
+                        <option value="chief">Chief Agent</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Organization/Affiliation</label>
+                    <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Professional Background</label>
+                    <textarea rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"></textarea>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeModal('addUserModal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors duration-300 mr-3">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                        Add User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form navigation functions
+        function nextStep(formType, currentStep) {
+            if (formType === 'cghs' || formType === 'volunteer') {
+                document.getElementById(`${formType}-step${currentStep}`).classList.remove('active');
+                document.getElementById(`${formType}-step${currentStep + 1}`).classList.add('active');
+                
+                // Update step indicators
+                document.querySelector(`#${formType} .step-indicator:nth-child(${currentStep})`).className = 'step-indicator step-completed';
+                document.querySelector(`#${formType} .step-indicator:nth-child(${currentStep + 1})`).className = 'step-indicator step-current';
+            } else {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                document.getElementById(`step${currentStep + 1}`).classList.add('active');
+                
+                // Update step indicators
+                document.querySelector('.step-indicator:nth-child(' + currentStep + ')').className = 'step-indicator step-completed';
+                document.querySelector('.step-indicator:nth-child(' + (currentStep + 1) + ')').className = 'step-indicator step-current';
+            }
+        }
+        
+        function prevStep(formType, currentStep) {
+            if (formType === 'cghs' || formType === 'volunteer') {
+                document.getElementById(`${formType}-step${currentStep}`).classList.remove('active');
+                document.getElementById(`${formType}-step${currentStep - 1}`).classList.add('active');
+                
+                // Update step indicators
+                document.querySelector(`#${formType} .step-indicator:nth-child(${currentStep})`).className = 'step-indicator step-pending';
+                document.querySelector(`#${formType} .step-indicator:nth-child(${currentStep - 1})`).className = 'step-indicator step-current';
+            } else {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                document.getElementById(`step${currentStep - 1}`).classList.add('active');
+                
+                // Update step indicators
+                document.querySelector('.step-indicator:nth-child(' + currentStep + ')').className = 'step-indicator step-pending';
+                document.querySelector('.step-indicator:nth-child(' + (currentStep - 1) + ')').className = 'step-indicator step-current';
+            }
+        }
+        
+        // Update course options based on program type
+        function updateCourseOptions() {
+            const programType = document.querySelector('select[name="programType"]').value;
+            const courseSelect = document.getElementById('courseSelect');
+            const courseInfo = document.getElementById('courseInfo');
+            const paymentCourse = document.getElementById('paymentCourse');
+            const paymentAmount = document.getElementById('paymentAmount');
+            
+            // Clear existing options
+            courseSelect.innerHTML = '';
+            
+            if (programType === 'professional') {
+                courseSelect.innerHTML = `
+                    <option value="">Select a professional certification</option>
+                    <option value="chtp">Certified Humanitarian Technology Professional (CHTP) - $1,200</option>
+                    <option value="csip">Certified Social Impact Professional (CSIP) - $950</option>
+                    <option value="chos">Certified Humanitarian Operations Specialist (CHOS) - $800</option>
+                    <option value="cdrds">Certified Disaster Response & Resilience Specialist (CDRRS) - $1,100</option>
+                    <option value="cnlp">Certified Nonprofit Leadership Professional (CNLP) - $1,500</option>
+                    <option value="cdim">Certified Development & Innovation Manager (CDIM) - $1,300</option>
+                `;
+            } else if (programType === 'volunteer') {
+                courseSelect.innerHTML = `
+                    <option value="">Select a volunteer certification</option>
+                    <option value="cpv">Certified Professional Volunteer (CPV) - $150</option>
+                    <option value="chv">Certified Humanitarian Volunteer (CHV) - $200</option>
+                    <option value="csca">Certified Social Change Agent (CSCA) - $180</option>
+                    <option value="ccdp">Certified Community Development Practitioner (CCDP) - $250</option>
+                    <option value="cdh">Certified Digital Humanitarian (CDH) - $175</option>
+                    <option value="cvc">Certified Volunteer Coordinator (CVC) - $220</option>
+                `;
+            } else if (programType === 'membership') {
+                courseSelect.innerHTML = `
+                    <option value="">Select a membership program</option>
+                    <option value="student">Student Member - $50/year</option>
+                    <option value="graduate">Graduate Member - $120/year</option>
+                    <option value="associate">Associate Member - $250/year</option>
+                    <option value="full">Full Member - $400/year</option>
+                `;
+            } else {
+                courseSelect.innerHTML = '<option value="">First select a program type</option>';
+            }
+            
+            // Reset course info
+            courseInfo.textContent = 'Select a course to view details.';
+            paymentCourse.textContent = 'Course details will appear here.';
+            paymentAmount.textContent = 'Amount: $0';
+        }
+        
+        // Update course info when course is selected
+        document.getElementById('courseSelect').addEventListener('change', function() {
+            const courseInfo = document.getElementById('courseInfo');
+            const paymentCourse = document.getElementById('paymentCourse');
+            const paymentAmount = document.getElementById('paymentAmount');
+            const selectedOption = this.options[this.selectedIndex];
+            const courseValue = this.value;
+            
+            if (courseValue) {
+                // Extract course name and price from the option text
+                const optionText = selectedOption.text;
+                const courseName = optionText.split(' - ')[0];
+                const price = optionText.split(' - ')[1];
+                
+                courseInfo.textContent = `You have selected: ${courseName}. ${price}`;
+                paymentCourse.textContent = `Course: ${courseName}`;
+                paymentAmount.textContent = `Amount: ${price}`;
+            } else {
+                courseInfo.textContent = 'Select a course to view details.';
+                paymentCourse.textContent = 'Course details will appear here.';
+                paymentAmount.textContent = 'Amount: $0';
+            }
+        });
+        
+        // Show/hide credit card details based on payment method
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const creditCardDetails = document.getElementById('creditCardDetails');
+                if (this.value === 'credit') {
+                    creditCardDetails.style.display = 'block';
+                } else {
+                    creditCardDetails.style.display = 'none';
+                }
+            });
+        });
+        
+        // Handle file upload drag and drop
+        const uploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('resourceFile');
+        
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', function() {
+            this.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                this.innerHTML = `<p class="text-green-600">File selected: ${e.dataTransfer.files[0].name}</p>`;
+            }
+        });
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length) {
+                uploadArea.innerHTML = `<p class="text-green-600">File selected: ${this.files[0].name}</p>`;
+            }
+        });
+        
+        // Admin panel navigation
+        document.querySelectorAll('.admin-sidebar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Hide all sections
+                document.querySelectorAll('.admin-content > div').forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show selected section
+                const target = this.getAttribute('href').substring(1);
+                document.getElementById(target).classList.remove('hidden');
+                
+                // Update active state
+                document.querySelectorAll('.admin-sidebar a').forEach(l => {
+                    l.classList.remove('bg-gray-700');
+                });
+                this.classList.add('bg-gray-700');
+            });
+        });
+        
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab content
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(tabName.split('-')[0])) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+        
+        // Form submission handlers (simulated)
+        document.getElementById('enrollment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Enrollment submitted successfully! In a real implementation, this data would be sent to our database.');
+            this.reset();
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.remove('active');
+            document.querySelector('.step-indicator:nth-child(1)').className = 'step-indicator step-current';
+            document.querySelector('.step-indicator:nth-child(2)').className = 'step-indicator step-pending';
+            document.querySelector('.step-indicator:nth-child(3)').className = 'step-indicator step-pending';
+        });
+        
+        document.getElementById('cghs-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('CGHS application submitted successfully! Our team will review your application and contact you within 5 business days.');
+            this.reset();
+            document.getElementById('cghs-step1').classList.add('active');
+            document.getElementById('cghs-step2').classList.remove('active');
+            document.getElementById('cghs-step3').classList.remove('active');
+            document.getElementById('cghs-step4').classList.remove('active');
+            document.querySelector('#cghs .step-indicator:nth-child(1)').className = 'step-indicator step-current';
+            document.querySelector('#cghs .step-indicator:nth-child(2)').className = 'step-indicator step-pending';
+            document.querySelector('#cghs .step-indicator:nth-child(3)').className = 'step-indicator step-pending';
+            document.querySelector('#cghs .step-indicator:nth-child(4)').className = 'step-indicator step-pending';
+        });
+        
+        document.getElementById('volunteer-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Volunteer registration completed successfully! Welcome to our community of changemakers.');
+            this.reset();
+            document.getElementById('volunteer-step1').classList.add('active');
+            document.getElementById('volunteer-step2').classList.remove('active');
+            document.getElementById('volunteer-step3').classList.remove('active');
+            document.querySelector('#volunteer .step-indicator:nth-child(1)').className = 'step-indicator step-current';
+            document.querySelector('#volunteer .step-indicator:nth-child(2)').className = 'step-indicator step-pending';
+            document.querySelector('#volunteer .step-indicator:nth-child(3)').className = 'step-indicator step-pending';
+        });
+        
+        // Initialize the admin dashboard as default
+        document.getElementById('admin-dashboard').classList.remove('hidden');
+        document.querySelector('.admin-sidebar a[href="#admin-dashboard"]').classList.add('bg-gray-700');
+    </script>
+</body>
+</html>
