@@ -1,0 +1,68 @@
+<!-- Dark Mode Toggle Button Component -->
+<!-- Add this component to your navigation bar or header -->
+
+<button
+  id="theme-toggle"
+  class="theme-toggle"
+  type="button"
+  role="switch"
+  aria-pressed="false"
+  aria-label="Switch to dark theme"
+  title="Toggle theme"
+>
+  <svg
+    class="theme-toggle-icon sun-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    />
+  </svg>
+  <svg
+    class="theme-toggle-icon moon-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
+  </svg>
+</button>
+
+<!--
+USAGE INSTRUCTIONS:
+1. Include the CSS files in your <head>:
+   <link rel="stylesheet" href="css/theme.css">
+   <link rel="stylesheet" href="css/accessibility.css">
+
+2. Include the JavaScript file before </body>:
+   <script src="js/theme.js"></script>
+
+3. Add this button component to your navigation/header
+
+4. The theme will:
+   - Automatically detect system preference (prefers-color-scheme)
+   - Save user's choice to localStorage
+   - Respect prefers-reduced-motion for accessibility
+   - Provide smooth transitions between themes
+   - Support keyboard navigation (Enter/Space to toggle)
+   - Include proper ARIA labels for screen readers
+
+5. Access the theme manager in your JavaScript:
+   window.themeManager.getCurrentTheme() // Returns 'light' or 'dark'
+   window.themeManager.setTheme('dark')  // Manually set theme
+   window.themeManager.toggleTheme()     // Toggle between themes
+-->
